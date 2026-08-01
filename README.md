@@ -17,7 +17,7 @@ first principles; the weights were trained from random initialization on public
 text. Nothing is downloaded and adapted — this is not a fine-tuned existing
 model.
 
-- Modern architecture rather than 2017 defaults: RoPE, SwiGLU, RMSNorm,
+- Modern architecture: RoPE, SwiGLU, RMSNorm,
   QK-norm, and a from-scratch implementation of the Muon optimizer
 - **A controlled experiment:** two full training runs, identical in every
   respect except the optimizer and normalization, so the measured difference
