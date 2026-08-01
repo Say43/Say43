@@ -2,8 +2,7 @@
 
 **Munich, Germany**
 
-I build machine-learning systems from the ground up and measure whether they
-actually work.
+I build machine-learning systems from the ground up and try to make them as efficient as possible to not rely on expensive GPU runtimes. I try to implement frontier architectures and techniques to learn as much as possible about the current state of ai-systems.
 
 ---
 
@@ -46,21 +45,3 @@ notebook, reproducible GitHub-to-Colab sync, datasets kept with the code.
 
 ---
 
-## How I work
-
-**Change one variable at a time.** A result without a control run is an
-anecdote. GPT-light's optimizer comparison holds architecture, data, and step
-count fixed so the difference means something.
-
-**Treat constraints as a design input.** A free GPU quota that resets weekly
-and cuts sessions off mid-run is a real engineering constraint. It drove the
-checkpoint-and-resume design, the choice of learning-rate schedule, and the
-memory tuning — not the other way around.
-
-**Write down what went wrong.** The mistakes that cost the most were the silent
-ones: a data loader that picked up the wrong dataset, a scaler state that
-wasn't saved, a GPU that quietly fell back to CPU. They are documented because
-they were expensive to find and are the most useful part to read.
-
-**Report the number that is true.** Where results fall short of production
-models, the repositories say so and explain why.
