@@ -3,9 +3,7 @@
 **Munich, Germany**
 
 I build machine-learning systems from the ground up and measure whether they
-actually work. Everything here was trained on free-tier cloud GPUs — the
-constraint is deliberate: it forces the engineering to be efficient, and it
-means every result is reproducible by anyone, without a budget.
+actually work.
 
 ---
 
