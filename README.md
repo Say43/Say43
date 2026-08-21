@@ -69,8 +69,7 @@ than point estimates alone.
 
 ### [AgentLight](https://github.com/Say43/AgentLight) — coding-agent research in progress
 
-A coding-agent pipeline built from Llama 3.2 3B Instruct on a hobbyist Kaggle
-GPU budget. It combines supervised reasoning training with an inference-time
+A coding-agent pipeline built from Llama 3.2 3B Instruct. It combines supervised reasoning training with an inference-time
 ReAct loop that executes generated Python, observes test failures, and retries.
 
 - Reasoning SFT and general-assistant replay are complete
