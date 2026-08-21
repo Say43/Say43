@@ -4,7 +4,7 @@
 
 I build machine-learning, forecasting, and control systems from the ground up.
 My projects are reproducible experiments, with efficient use of limited compute,
-calibrated uncertainty, and documenting negative results as clearly as the
+calibrated uncertainty, and with a documentation of negative results as clearly as the
 successful ones.
 
 ---
