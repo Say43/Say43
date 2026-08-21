@@ -3,7 +3,7 @@
 **Munich, Germany**
 
 I build machine-learning, forecasting, and control systems from the ground up.
-I care about reproducible experiments, efficient use of limited compute,
+My projects are reproducible experiments, with efficient use of limited compute,
 calibrated uncertainty, and documenting negative results as clearly as the
 successful ones.
 
