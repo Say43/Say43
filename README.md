@@ -2,46 +2,79 @@
 
 **Munich, Germany**
 
-I build machine-learning systems from the ground up and try to make them as efficient as possible to not rely on expensive GPU runtimes. I try to implement frontier architectures and techniques to learn as much as possible about the current state of ai-systems.
+I build machine-learning, forecasting, and control systems from the ground up.
+I care about reproducible experiments, efficient use of limited compute,
+calibrated uncertainty, and documenting negative results as clearly as the
+successful ones.
 
 ---
 
 ## Projects
 
+### [Rocket Landing Guidance via Convex MPC](https://github.com/Say43/Rocketlanding_MPC)
+
+A from-scratch 3-DOF simulation of powered-descent guidance for a reusable
+booster. It uses convex optimization both as an open-loop planner and as a
+closed-loop model predictive controller, then connects the landing burn to a
+full return profile based on public Falcon 9 telemetry.
+
+- G-FOLD-style lossless convexification with successive convexification for
+  aerodynamic drag
+- Open-loop and MPC guidance compared under wind and state disturbances
+- Atmosphere and drag model validated against public CRS-11 and CRS-12
+  telemetry
+- Self-contained interactive 3D web visualization of the simulated return
+
 ### [GPT-light](https://github.com/Say43/GPT-light) — a language model built from scratch
 
-A 97-million-parameter GPT written directly in PyTorch. The architecture, the
-training loop, the tokenizer, and the evaluation code are all implemented from
-first principles; the weights were trained from random initialization on public
-text. Nothing is downloaded and adapted — this is not a fine-tuned existing
-model.
+A 97-million-parameter GPT written directly in PyTorch. The architecture,
+tokenizer, training loop, and evaluation suite are implemented from first
+principles, and the model was trained from random initialization on public
+text.
 
-- Modern architecture: RoPE, SwiGLU, RMSNorm,
-  QK-norm, and a from-scratch implementation of the Muon optimizer
-- **A controlled experiment:** two full training runs, identical in every
-  respect except the optimizer and normalization, so the measured difference
-  can be attributed to that one change
-- Scored on ARC, HellaSwag and LAMBADA using the standard log-likelihood
-  protocol, reimplemented from scratch
-- The failures are documented next to the results — including a silent data
-  mix-up that invalidated an entire run
+- Modern architecture with RoPE, SwiGLU, RMSNorm, QK-norm, and an independent
+  implementation of the Muon optimizer
+- Controlled comparison between two full training runs that differ only in
+  optimizer and normalization
+- Evaluation on ARC-Easy, ARC-Challenge, HellaSwag, and LAMBADA using a
+  reimplemented standard log-likelihood protocol
+- Results include the failures and data issues discovered along the way
 
-### [AgentLight](https://github.com/Say43/AgentLight) — reinforcement learning on verifiable rewards
+### [Finance ETF Forecasting](https://github.com/Say43/Finance-ETF-Forecasting)
 
-A coding agent built by fine-tuning Llama 3.2 3B. The idea that makes it work
-on a small budget: the reward signal is **objective**. The model writes Python,
-the code is executed against unit tests, and the fraction of tests that pass is
-the reward — no human raters, no model-as-judge.
+A rigorous investigation of fine-tuning the Kronos financial foundation model
+on ETF data, including leakage-free calibration, walk-forward testing, and
+follow-up research after the model showed no directional edge.
 
-- Pipeline: reasoning-SFT → repair-SFT → general-SFT → GRPO
-- An inference-time ReAct loop turns generation into agency: execute, observe
-  the failure, revise
-- Full licence compliance for a derivative model — Built with Llama
+- Split-conformal prediction intervals and statistical comparison against
+  naive, GARCH, and EWMA baselines
+- Negative directional result documented instead of optimized away
+- Modest volatility-forecasting skill and independent portfolio experiments
+  with trend following and volatility targeting
+- Reproducible research pipeline plus a local forecast web interface
 
-### [unsloth-colab-finetuning](https://github.com/Say43/unsloth-colab-finetuning) — the tooling
+### [Turbofan RUL — N-CMAPSS](https://github.com/Say43/TurbofanRUL-NCMAPSS)
 
-The reusable Colab workspace behind the fine-tuning experiments: versioned
-notebook, reproducible GitHub-to-Colab sync, datasets kept with the code.
+Predictive maintenance for aircraft engines using NASA's realistic N-CMAPSS
+DS02 flight profiles. The project compares classical machine learning and deep
+sequence models for remaining-useful-life prediction, with uncertainty rather
+than point estimates alone.
 
----
+- Cycle-level feature engineering and sequence modeling with leakage-safe
+  unit-based splits
+- Gradient boosting and NGBoost compared with CNN/LSTM approaches
+- Quantile, ensemble, and MC-dropout uncertainty estimates
+- Evaluation with RMSE, the asymmetric NASA PHM score, interval coverage, and
+  calibration
 
+### [AgentLight](https://github.com/Say43/AgentLight) — coding-agent research in progress
+
+A coding-agent pipeline built from Llama 3.2 3B Instruct on a hobbyist Kaggle
+GPU budget. It combines supervised reasoning training with an inference-time
+ReAct loop that executes generated Python, observes test failures, and retries.
+
+- Reasoning SFT and general-assistant replay are complete
+- GRPO uses unit-test outcomes as an objective, verifiable reward
+- Sandboxed execution is shared by training rewards and the ReAct agent
+- GRPO and the final before/after evaluation are not yet complete, so no
+  performance gain is claimed
