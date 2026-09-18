@@ -67,13 +67,18 @@ than point estimates alone.
 - Evaluation with RMSE, the asymmetric NASA PHM score, interval coverage, and
   calibration
 
-### [AgentLight](https://github.com/Say43/AgentLight) — coding-agent research in progress
+### [AgentLight](https://github.com/Say43/AgentLight) — a coding agent built end to end
 
-A coding-agent pipeline built from Llama 3.2 3B Instruct. It combines supervised reasoning training with an inference-time
-ReAct loop that executes generated Python, observes test failures, and retries.
+A complete training-to-inference pipeline that turns Llama 3.2 3B Instruct into a
+working coding agent: reasoning SFT, general-assistant replay, GRPO with unit-test
+rewards, and an inference-time ReAct loop that executes generated Python, observes
+test failures, and retries.
 
-- Reasoning SFT and general-assistant replay are complete
+- Full pipeline run on a single Kaggle T4 within the 16h budget; final GRPO
+  adapter verified and checksummed
 - GRPO uses unit-test outcomes as an objective, verifiable reward
 - Sandboxed execution is shared by training rewards and the ReAct agent
-- GRPO and the final before/after evaluation are not yet complete, so no
-  performance gain is claimed
+- Licence-compliant training data only (no closed-model distillation)
+- The goal was a functioning architecture, not a benchmark result; a HumanEval
+  before/after comparison is deliberately out of scope, so no performance gain
+  is claimed
