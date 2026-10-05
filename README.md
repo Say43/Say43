@@ -2,83 +2,127 @@
 
 **Munich, Germany**
 
-I build machine-learning, forecasting, and control systems from the ground up.
-My projects are reproducible experiments, with efficient use of limited compute,
-calibrated uncertainty, and with a documentation of negative results as clearly as the
-successful ones.
+I build machine-learning, simulation and control projects end to end, almost
+entirely on free cloud GPUs (Kaggle and Colab T4s). Each project starts from a
+concrete question, runs under a fixed compute budget, and ends with a written
+report: what was measured, what held up, what did not, and what is still open.
+Failed runs and negative results are documented next to the successful ones.
 
 ---
 
-## Projects
+## Research projects
 
-### [Rocket Landing Guidance via Convex MPC](https://github.com/Say43/Rocketlanding_MPC)
+### [Graph backbones in physics-informed neural networks](https://github.com/Say43/PINN)
 
-A from-scratch 3-DOF simulation of powered-descent guidance for a reusable
-booster. It uses convex optimization both as an open-loop planner and as a
-closed-loop model predictive controller, then connects the landing burn to a
-full return profile based on public Falcon 9 telemetry.
+A preregistered study of whether PDE-structured graph neural ODEs (GRAND,
+GREAD) help physics-informed networks escape the failure modes reported in the
+PINN literature. The protocol was hash-locked before the first study run, and
+numerical precision and regularisation were controlled as separate factors.
 
-- G-FOLD-style lossless convexification with successive convexification for
-  aerodynamic drag
-- Open-loop and MPC guidance compared under wind and state disturbances
-- Atmosphere and drag model validated against public CRS-11 and CRS-12
-  telemetry
-- Self-contained interactive 3D web visualization of the simulated return
+- **Result:** at the collapse edge of the reaction equation (60 runs), GREAD
+  succeeded in 18 of 20 runs, GRAND in 15 and the MLP baseline in 8. The
+  advantage held in all four precision × regularisation strata.
+- **Finding:** most failures satisfy the PDE at the collocation points and are
+  still wrong between them, so a small training loss was no evidence of a
+  correct solution. The graph backbones mainly avoid this failure mode.
+- **Open:** the predicted mechanism did not hold, and the comparison matches
+  iterations, not compute. A graph run costs 10–16× an MLP run.
 
-### [GPT-light](https://github.com/Say43/GPT-light) — a language model built from scratch
+### [nanoWM — a pose-conditioned world model](https://github.com/Say43/World-Model)
 
-A 97-million-parameter GPT written directly in PyTorch. The architecture,
-tokenizer, training loop, and evaluation suite are implemented from first
-principles, and the model was trained from random initialization on public
-text.
+A 40M-parameter causal Diffusion Transformer that predicts future video frames
+of a 3D scene from past frames and a camera trajectory, trained under a fixed
+budget of 20 GPU-hours on procedurally generated rooms.
 
-- Modern architecture with RoPE, SwiGLU, RMSNorm, QK-norm, and an independent
-  implementation of the Muon optimizer
-- Controlled comparison between two full training runs that differ only in
-  optimizer and normalization
-- Evaluation on ARC-Easy, ARC-Challenge, HellaSwag, and LAMBADA using a
-  reimplemented standard log-likelihood protocol
-- Results include the failures and data issues discovered along the way
+- **Result:** 37.0 dB PSNR on training scenes and 21.2 dB on unseen rooms,
+  against an autoencoder ceiling of 46.0 dB. Camera motion and room layout
+  generalise; objects outside the context frames are hallucinated.
+- **Method:** the training recipe was chosen by a paired, equal-compute
+  ablation. Representation alignment (REPA) lowered the flow loss by about 7 %
+  with the same sign in both seeds.
+- **Open:** long-horizon rollouts have not been evaluated, and the optimiser
+  comparison used an untuned AdamW baseline.
 
-### [Finance ETF Forecasting](https://github.com/Say43/Finance-ETF-Forecasting)
+---
 
-A rigorous investigation of fine-tuning the Kronos financial foundation model
-on ETF data, including leakage-free calibration, walk-forward testing, and
-follow-up research after the model showed no directional edge.
+## Engineering projects
 
-- Split-conformal prediction intervals and statistical comparison against
-  naive, GARCH, and EWMA baselines
-- Negative directional result documented instead of optimized away
-- Modest volatility-forecasting skill and independent portfolio experiments
-  with trend following and volatility targeting
-- Reproducible research pipeline plus a local forecast web interface
+### [Rocket landing guidance via convex MPC](https://github.com/Say43/Rocketlanding_MPC)
 
-### [Turbofan RUL — N-CMAPSS](https://github.com/Say43/TurbofanRUL-NCMAPSS)
+A 3-DOF simulation of powered-descent guidance for a reusable booster, written
+from scratch. A G-FOLD-style convex program is flown once open-loop and once as
+a model predictive controller. It is then chained into a full return profile
+that starts from the real separation state of a Falcon 9 mission.
 
-Predictive maintenance for aircraft engines using NASA's realistic N-CMAPSS
-DS02 flight profiles. The project compares classical machine learning and deep
-sequence models for remaining-useful-life prediction, with uncertainty rather
-than point estimates alone.
+- **Result:** under the same wind gust, open-loop playback missed the pad by
+  175 m and the MPC by 1 mm, for 0.5 % more propellant.
+- **Validation:** the drag model was checked against public CRS-11 and CRS-12
+  telemetry, including a leave-one-flight-out fit. The full profile reaches
+  every flight milestone about 2 % early.
+- Comes with an interactive, dependency-free 3D web visualisation of the
+  return flight.
 
-- Cycle-level feature engineering and sequence modeling with leakage-safe
-  unit-based splits
-- Gradient boosting and NGBoost compared with CNN/LSTM approaches
-- Quantile, ensemble, and MC-dropout uncertainty estimates
-- Evaluation with RMSE, the asymmetric NASA PHM score, interval coverage, and
-  calibration
+### [Alpamayo-1.5 in CARLA](https://github.com/Say43/Autonomous-Driving-Stack)
 
-### [AgentLight](https://github.com/Say43/AgentLight) — a coding agent built end to end
+NVIDIA's 10B-parameter vision-language-action model as the planner of a CARLA
+ego vehicle, on a laptop with a 6 GB GPU. Inference runs in 4-bit on two free
+Kaggle T4s and is linked to the simulator through a file queue on Hugging Face.
+The closed loop runs about 40× slower than real time.
 
-A complete training-to-inference pipeline that turns Llama 3.2 3B Instruct into a
-working coding agent: reasoning SFT, general-assistant replay, GRPO with unit-test
-rewards, and an inference-time ReAct loop that executes generated Python, observes
-test failures, and retries.
+- **Result:** the model reads traffic lights and keeps distance to moving
+  vehicles. It reproducibly overestimates the gap to stopped vehicles, and
+  twice its trajectory contradicted its own reasoning text.
+- **Safety:** an emergency brake and a footprint supervisor are counted
+  separately, so a safe run is never reported as an unassisted model success.
+- **Scope:** one map, one seed. The runs are case studies, not a benchmark.
 
-- Full pipeline run on a single Kaggle T4 within the 16h budget; final GRPO
-  adapter verified and checksummed
-- GRPO uses unit-test outcomes as an objective, verifiable reward
-- Sandboxed execution is shared by training rewards and the ReAct agent
-- Licence-compliant training data only (no closed-model distillation)
-- The goal was a functioning architecture, not a benchmark result; a HumanEval
-  before/after comparison is deliberately out of scope, so no performance gain
-  is claimed
+### [GPT-light — a language model built from scratch](https://github.com/Say43/GPT-light)
+
+A 97M-parameter GPT written directly in PyTorch, with its own tokenizer, and
+trained from random initialisation on about 1B tokens of FineWeb-Edu, followed
+by chat fine-tuning.
+
+- **Result:** clearly above chance on ARC-Easy (43 %), HellaSwag (39 %) and
+  LAMBADA. It stays at chance on ARC-Challenge.
+- Muon plus QK-norm gave consistently lower pretraining loss than AdamW alone.
+  This comparison changes two variables at once and uses one seed per
+  configuration.
+- The report lists the bugs that cost GPU quota, including a dataset mix-up
+  that had made an earlier result look better than it was.
+
+---
+
+## Smaller studies
+
+**[Finance ETF Forecasting](https://github.com/Say43/Finance-ETF-Forecasting):**
+I fine-tuned the Kronos foundation model on ETFs, calibrated it with conformal
+intervals and tested it walk-forward. Its directional forecasts were
+indistinguishable from a random walk, and its volatility forecasts were roughly
+on par with GARCH. A model-free trend and volatility-targeting rule improved a
+10-ETF portfolio from Sharpe 0.76 to 0.99.
+
+**[Turbofan RUL on N-CMAPSS](https://github.com/Say43/TurbofanRUL-NCMAPSS):**
+Remaining-useful-life prediction for aircraft engines on NASA's DS02 flight
+data. The project compares NGBoost with cross-conformal intervals against a
+1D-CNN deep ensemble. NGBoost reached a test RMSE of 10.7 cycles across flight
+classes it had not been trained on. A leaked health-state feature was found and
+removed before the final numbers.
+
+**[AgentLight](https://github.com/Say43/AgentLight):**
+A four-phase QLoRA pipeline (reasoning SFT, repair SFT, replay and GRPO with
+unit-test rewards) plus a ReAct execute-and-repair loop for Llama 3.2 3B, run
+end to end on one Kaggle T4. The goal was a working architecture. A held-out
+HumanEval comparison was not run, so no improvement over the base model is
+claimed.
+
+---
+
+## How I work
+
+- Protocols, budgets and success criteria are fixed before the expensive runs.
+  Deviations are written down with the reason.
+- Results are reported with their uncertainty and their limits. A result that
+  depends on one seed or one setting is labelled as such.
+- I build these projects with AI coding agents (Claude, OpenAI Codex), working
+  under written briefs that require checking claims against the installed code
+  and the raw results.
