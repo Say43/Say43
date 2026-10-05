@@ -12,7 +12,9 @@ Failed runs and negative results are documented next to the successful ones.
 
 ## Research projects
 
-### [Graph backbones in physics-informed neural networks](https://github.com/Say43/PINN)
+### [PINN](https://github.com/Say43/PINN)
+
+*Graph backbones in physics-informed neural networks*
 
 A preregistered study of whether PDE-structured graph neural ODEs (GRAND,
 GREAD) help physics-informed networks escape the failure modes reported in the
@@ -28,7 +30,9 @@ numerical precision and regularisation were controlled as separate factors.
 - **Open:** the predicted mechanism did not hold, and the comparison matches
   iterations, not compute. A graph run costs 10–16× an MLP run.
 
-### [nanoWM — a pose-conditioned world model](https://github.com/Say43/World-Model)
+### [World-Model](https://github.com/Say43/World-Model)
+
+*nanoWM, a pose-conditioned world model*
 
 A 40M-parameter causal Diffusion Transformer that predicts future video frames
 of a 3D scene from past frames and a camera trajectory, trained under a fixed
@@ -47,7 +51,9 @@ budget of 20 GPU-hours on procedurally generated rooms.
 
 ## Engineering projects
 
-### [Rocket landing guidance via convex MPC](https://github.com/Say43/Rocketlanding_MPC)
+### [Rocketlanding_MPC](https://github.com/Say43/Rocketlanding_MPC)
+
+*Rocket landing guidance via convex MPC*
 
 A 3-DOF simulation of powered-descent guidance for a reusable booster, written
 from scratch. A G-FOLD-style convex program is flown once open-loop and once as
@@ -62,7 +68,9 @@ that starts from the real separation state of a Falcon 9 mission.
 - Comes with an interactive, dependency-free 3D web visualisation of the
   return flight.
 
-### [Alpamayo-1.5 in CARLA](https://github.com/Say43/Autonomous-Driving-Stack)
+### [Autonomous-Driving-Stack](https://github.com/Say43/Autonomous-Driving-Stack)
+
+*Alpamayo-1.5 in CARLA*
 
 NVIDIA's 10B-parameter vision-language-action model as the planner of a CARLA
 ego vehicle, on a laptop with a 6 GB GPU. Inference runs in 4-bit on two free
@@ -76,7 +84,9 @@ The closed loop runs about 40× slower than real time.
   separately, so a safe run is never reported as an unassisted model success.
 - **Scope:** one map, one seed. The runs are case studies, not a benchmark.
 
-### [GPT-light — a language model built from scratch](https://github.com/Say43/GPT-light)
+### [GPT-light](https://github.com/Say43/GPT-light)
+
+*A language model built from scratch*
 
 A 97M-parameter GPT written directly in PyTorch, with its own tokenizer, and
 trained from random initialisation on about 1B tokens of FineWeb-Edu, followed
@@ -94,19 +104,19 @@ by chat fine-tuning.
 
 ## Smaller studies
 
-**[Finance ETF Forecasting](https://github.com/Say43/Finance-ETF-Forecasting):**
+**[Finance-ETF-Forecasting](https://github.com/Say43/Finance-ETF-Forecasting):**
 I fine-tuned the Kronos foundation model on ETFs, calibrated it with conformal
 intervals and tested it walk-forward. Its directional forecasts were
 indistinguishable from a random walk, and its volatility forecasts were roughly
 on par with GARCH. A model-free trend and volatility-targeting rule improved a
 10-ETF portfolio from Sharpe 0.76 to 0.99.
 
-**[Turbofan RUL on N-CMAPSS](https://github.com/Say43/TurbofanRUL-NCMAPSS):**
+**[TurbofanRUL-NCMAPSS](https://github.com/Say43/TurbofanRUL-NCMAPSS):**
 Remaining-useful-life prediction for aircraft engines on NASA's DS02 flight
 data. The project compares NGBoost with cross-conformal intervals against a
-1D-CNN deep ensemble. NGBoost reached a test RMSE of 10.7 cycles across flight
-classes it had not been trained on. A leaked health-state feature was found and
-removed before the final numbers.
+1D-CNN deep ensemble. NGBoost reached a test RMSE of 10.7 cycles on the
+official test set, which includes two flight classes absent from training. A
+leaked health-state feature was found and removed before the final numbers.
 
 **[AgentLight](https://github.com/Say43/AgentLight):**
 A four-phase QLoRA pipeline (reasoning SFT, repair SFT, replay and GRPO with
