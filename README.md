@@ -127,12 +127,3 @@ claimed.
 
 ---
 
-## How I work
-
-- Protocols, budgets and success criteria are fixed before the expensive runs.
-  Deviations are written down with the reason.
-- Results are reported with their uncertainty and their limits. A result that
-  depends on one seed or one setting is labelled as such.
-- I build these projects with AI coding agents (Claude, OpenAI Codex), working
-  under written briefs that require checking claims against the installed code
-  and the raw results.
